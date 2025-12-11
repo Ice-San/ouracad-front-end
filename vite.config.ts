@@ -16,7 +16,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@components": "/src/components",
-      "@utils": "/src/utils"
+      "@utils": "/src/utils",
+      "@api": "/src/api"
     }
   }
 })
