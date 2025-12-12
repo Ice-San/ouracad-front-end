@@ -5,12 +5,7 @@ import { Icon } from "@components/Icon";
 import { getInitials } from "@utils/getInitials";
 import { abbreviate } from "@utils/abbreviate";
 
-type UsersList = {
-    username: string;
-    email: string;
-    role: string;
-    joined: string;
-}
+import { UsersList } from "types/usersTypes";
 
 export const List = ({username, email, role, joined}: UsersList) => {
     return (
