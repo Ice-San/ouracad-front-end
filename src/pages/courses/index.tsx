@@ -19,14 +19,13 @@ export const CoursesPage = () => {
 
             <div className="p-5 flex justify-center gap-5 w-full h-[87.5vh] max-[832px]:flex-col">
                 <div className="shadow-md inset-shadow-sm border border-gray-200 rounded-lg p-2.5 flex flex-col gap-2 w-110 max-[832px]:w-full">
-                    <h2 className="text-xl cursor-default font-bold">Create User</h2>
-                    
+                    <h2 className="text-xl cursor-default font-bold">Create Course</h2>
                     <AddCourse />
                 </div>
 
                 <div className="shadow-md inset-shadow-sm border border-gray-200 rounded-lg p-2.5 flex flex-col gap-2 w-110 max-[832px]:w-full">
                     <h2 className="text-xl font-bold cursor-default">
-                        User List
+                        Course List
                     </h2>
 
                     <div className="flex items-center gap-1.5 rounded-sm border-2 border-gray-600 px-1 py-0.5 w-full focus-within:ring-2 focus-within:ring-gray-400 transition-all duration-150 ease-in-out">
