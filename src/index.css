@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --bg-blue: rgba(13, 0, 255, 0.4);
+  --bg-blue: rgba(0, 255, 187, 0.51);
   --bg-orange: rgba(255, 177, 117, 0.61);
   --form-box: #FCCD92;
   --primary: #6EA5FF;
