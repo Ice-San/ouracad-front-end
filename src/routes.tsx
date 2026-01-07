@@ -6,6 +6,7 @@ import { UsersPage } from 'pages/users';
 import { ProfilePage } from 'pages/profile';
 import { CoursesPage } from 'pages/courses';
 import { StatsPage } from 'pages/stats';
+import { FormPage } from 'pages/formPage';
 
 export const Routes = () => {
     return (
@@ -13,6 +14,7 @@ export const Routes = () => {
             <ReactRoutes>
                 <Route path='/' element={<SignInPage />} />
                 <Route path='/dashboard' element={<DashboardPage />} />
+                <Route path='/form' element={<FormPage />} />
                 <Route path='/users' element={<UsersPage />} />
                 <Route path='/profile' element={<ProfilePage />} />
                 <Route path='/courses' element={<CoursesPage />} />
