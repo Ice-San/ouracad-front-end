@@ -1,11 +1,52 @@
-import { Link } from "react-router";
-import { ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { Link, useLocation, useNavigate } from "react-router";
+import { toast, ToastContainer } from "react-toastify";
 
 import { Icon } from "@components/Icon";
 
-import { getInitials } from "@utils/getInitials";
+import { formatDate } from "@utils/formatDate";
+
+import { CourseType } from "types/CourseType";
+
+import { validation } from "@api/auth/validation";
+import { getCourse } from "@api/courses/getCourse";
 
 export const CoursesInfoPage = () => {
+    const [cookies] = useCookies(['token']);
+    const navegate = useNavigate();
+    const location = useLocation();
+    const [stateCourse, setCourse] = useState<CourseType>();
+
+    const { course, year } = location.state || "";
+
+    useEffect(() => {
+        (async () => {
+            const auth = await validation(cookies?.token as string);
+            if(!auth) navegate("/");
+        })();
+
+        if(!course || !year) navegate("/courses");
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const courses = await getCourse(course, year);
+            const { status, data } = courses;
+
+            if(status !== 200) {
+                toast.error('Failed to Get Course...', {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    draggable: 'touch'
+                });
+                return;
+            }
+
+            setCourse(data);
+        })();
+    }, []);
+
     return (
         <>
             <div className="bg-(--primary) flex items-center pl-5 w-full h-25">
@@ -23,12 +64,12 @@ export const CoursesInfoPage = () => {
                         <div className="flex flex-col justify-center items-center gap-2 shadow-md inset-shadow-sm border border-gray-200 rounded-lg p-2.5 min-w-50 h-50 max-[832px]:w-full">
                             <div className="bg-gray-300 flex justify-center items-center rounded-full min-w-25 min-h-25">
                                 <h2 className="text-lg">
-                                    {getInitials("TPSI")}
+                                    {stateCourse?.course || "TPSI"}
                                 </h2>
                             </div>
 
                             <div className="flex flex-col justify-center items-center *:cursor-default">
-                                <p className="text-gray-500 text-md">Created: 10/12/2025</p>
+                                <p className="text-gray-500 text-md">Created: {formatDate(stateCourse?.created_at || "10/12/2025")}</p>
                             </div>
                         </div>
 
@@ -45,21 +86,20 @@ export const CoursesInfoPage = () => {
                                     className="rounded-sm border-2 border-gray-600 px-1 py-0.5 w-full focus:ring-2 focus:ring-gray-400 transition-all duration-150 ease-in-out" 
                                     id="subject"
                                 >
-                                    <option value="tpsi">TPSI</option>
-                                    <option value="tpsi">DPM</option>
+                                    <option value="tpsi1">TPSI 1º ano</option>
+                                    <option value="tpsi2">TPSI 2º ano</option>
+                                    <option value="dpm1">DPM 1º ano</option>
                                 </select>
                             </div>
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="role">Regentes</label>
-                                <select
-                                    className="rounded-sm border-2 border-gray-600 px-1 py-0.5 w-full focus:ring-2 focus:ring-gray-400 transition-all duration-150 ease-in-out" 
+                                <input
+                                    className="rounded-sm border-2 border-gray-600 px-1 py-0.5 w-full focus:ring-2 focus:ring-gray-400 transition-all duration-150 ease-in-out"
+                                    type="text" 
                                     id="role"
-                                >
-                                    <option value="docente">Joaquim Santos</option>
-                                    <option value="regente">John Doe</option>
-                                    <option value="admin">Anibal Antunes</option>
-                                </select>
+                                    defaultValue={stateCourse?.conductor || ""}
+                                />
                             </div>
 
                             <div className="flex flex-col gap-1">
