@@ -42,7 +42,7 @@ export const SignInPage = () => {
             position: "bottom-right",
             pauseOnHover: false,
             draggable: 'touch'
-        });
+        });     
 
         setCookie('token', token);
         navegate("/dashboard");

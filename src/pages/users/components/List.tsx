@@ -1,13 +1,47 @@
+import { Dispatch, SetStateAction } from "react";
 import { Link } from "react-router";
+import { useCookies } from "react-cookie";
 
 import { Icon } from "@components/Icon";
 
 import { getInitials } from "@utils/getInitials";
 import { abbreviate } from "@utils/abbreviate";
 
-import { UsersList } from "types/usersTypes";
+import { deleteUser } from "@api/users/deleteUser";
 
-export const List = ({username, email, role, joined}: UsersList) => {
+import { UsersList } from "types/usersTypes";
+import { toast } from "react-toastify";
+
+type UserListType = {
+    username: string;
+    email: string;
+    role: string;
+    joined: string;
+    setUser: Dispatch<SetStateAction<UsersList[]>>;
+}
+
+export const List = ({username, email, role, joined, setUser}: UserListType) => {
+    const handleDeleteUser = async () => {
+        const { status } = await deleteUser(email);
+
+        if(status !== 200) {
+            toast.error(`Failed to delete ${username}!`, {
+                position: "bottom-right",
+                pauseOnHover: false,
+                draggable: 'touch'
+            });
+            return;
+        }
+
+        setUser(prev => prev.filter(user => user.email != email));
+
+        toast.success('User deleted successfuly!', {
+            position: "bottom-right",
+            pauseOnHover: false,
+            draggable: 'touch'
+        });
+    }
+
     return (
         <div className="flex justify-end items-center relative w-full hover:scale-95 transition-all duration-150 ease-in-out">
             <Link to='/profile' className="shadow-md inset-shadow-sm border border-gray-200 rounded-md flex items-center gap-2 p-2 w-full">
@@ -40,7 +74,7 @@ export const List = ({username, email, role, joined}: UsersList) => {
                 </div>
             </Link>
 
-            <div className="absolute shadow-md inset-shadow-sm border border-gray-200 rounded-sm cursor-default p-1.5 mr-4 hover:scale-95 transition-all duration-150 ease-in-out">
+            <div onClick={handleDeleteUser} className="absolute shadow-md inset-shadow-sm border border-gray-200 rounded-sm cursor-default p-1.5 mr-4 hover:scale-95 transition-all duration-150 ease-in-out">
                 <Icon className="size-6" url="/img/delete-icon.png" />
             </div>
         </div>

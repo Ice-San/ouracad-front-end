@@ -87,7 +87,7 @@ export const UsersPage = () => {
 
                     <div className="flex flex-col gap-2 pr-0.5 overflow-auto max-[832px]:max-h-55">
                         {users.map((user => (
-                            <List key={user.email} {...user} />
+                            <List key={user.email} {...user} setUser={setUsers} />
                         )))}
                     </div>
                 </div>
