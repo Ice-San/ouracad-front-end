@@ -1,14 +1,17 @@
-import { Link } from "react-router";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router";
+import { useCookies } from "react-cookie";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { ToastContainer } from "react-toastify";
 
 import { Icon } from "@components/Icon";
 
+import { validation } from "@api/auth/validation";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const StatsPage = () => {
-    const statsData = {
+const statsData = {
         labels: ['Deistiram', 'Motivos Pessoais', 'Motivos de Doença', 'Motivos Familiares', 'Outros'],
         datasets: [
             {
@@ -32,6 +35,17 @@ export const StatsPage = () => {
             },
         ],
     };
+
+export const StatsPage = () => {
+    const [cookies] = useCookies(['token']);
+    const navegate = useNavigate();
+
+    useEffect(() => {
+        (async () => {
+            const auth = await validation(cookies?.token as string);
+            if(!auth) navegate("/");
+        })();
+    }, []);
 
     return (
          <>

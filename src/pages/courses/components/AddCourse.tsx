@@ -3,24 +3,34 @@ export const AddCourse = () => {
         <form className="flex flex-col gap-1.5 w-full h-full">
             <div className="flex flex-col gap-1">
                 <label htmlFor="course">Curso</label>
+                <input
+                    className="rounded-sm border-2 border-gray-600 px-1 py-0.5 w-full focus:ring-2 focus:ring-gray-400 transition-all duration-150 ease-in-out"
+                    type="text" 
+                    id="course" 
+                    placeholder="TPSI" 
+                />
+            </div>
+
+            <div className="flex flex-col gap-1">
+                <label htmlFor="year">Ano do Curso</label>
                 <select
                     className="rounded-sm border-2 border-gray-600 px-1 py-0.5 w-full focus:ring-2 focus:ring-gray-400 transition-all duration-150 ease-in-out" 
-                    id="course"
+                    id="year"
                 >
-                    <option value="tpsi">TPSI</option>
-                    <option value="dpm">DPM</option>
+                    <option value="1">1º ano</option>
+                    <option value="2">2º ano</option>
+                    <option value="3">3º ano</option>
                 </select>
             </div>
 
             <div className="flex flex-col gap-1">
                 <label htmlFor="coordinator">Coordenador do Curso</label>
-                <select
-                    className="rounded-sm border-2 border-gray-600 px-1 py-0.5 w-full focus:ring-2 focus:ring-gray-400 transition-all duration-150 ease-in-out" 
-                    id="course"
-                >
-                    <option value="tpsi">Joaquim Antunes</option>
-                    <option value="dpm">John Doe</option>
-                </select>
+                <input
+                    className="rounded-sm border-2 border-gray-600 px-1 py-0.5 w-full focus:ring-2 focus:ring-gray-400 transition-all duration-150 ease-in-out"
+                    type="text" 
+                    id="course" 
+                    placeholder="John Doe" 
+                />
             </div>
 
             <button

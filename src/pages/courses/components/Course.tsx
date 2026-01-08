@@ -33,6 +33,12 @@ export const Course = ({course, conductor, year, setCourses}: CourseInfoType) =>
         }
 
         setCourses(prev => prev.filter(prevCourse => prevCourse.course != course && prevCourse.year != year));
+
+        toast.success('Course deleted successfuly!', {
+            position: "bottom-right",
+            pauseOnHover: false,
+            draggable: 'touch'
+        });
     }
 
     return(

@@ -1,11 +1,24 @@
-import { Link } from "react-router";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router";
 import { ToastContainer } from "react-toastify";
 
 import { Icon } from "@components/Icon";
 
 import { getInitials } from "@utils/getInitials";
+import { validation } from "@api/auth/validation";
 
 export const ProfilePage = () => {
+    const [cookies] = useCookies(['token']);
+    const navegate = useNavigate();
+
+    useEffect(() => {
+        (async () => {
+            const auth = await validation(cookies?.token as string);
+            if(!auth) navegate("/");
+        })();
+    }, []);
+
     return (
         <>
             <div className="bg-(--primary) flex items-center pl-5 w-full h-25">
