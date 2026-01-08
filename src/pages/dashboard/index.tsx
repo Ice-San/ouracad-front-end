@@ -1,8 +1,22 @@
-import { Link } from "react-router";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router";
 
 import { Icon } from "@components/Icon";
 
+import { validation } from "@api/auth/validation";
+
 export const DashboardPage = () => {
+    const [cookies] = useCookies(['token']);
+    const navegate = useNavigate();
+
+    useEffect(() => {
+        (async () => {
+            const auth = await validation(cookies?.token as string);
+            if(!auth) navegate("/");
+        })();
+    }, []);
+
     return (
         <div className="flex justify-center items-center w-full h-dvh">
             <div style={{ backgroundImage: `url("/img/background-login.png")` }} className="bg-no-repeat bg-center bg-cover w-full h-dvh">

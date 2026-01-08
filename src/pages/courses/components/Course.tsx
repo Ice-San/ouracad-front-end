@@ -1,14 +1,9 @@
 import { Icon } from "@components/Icon";
 import { Link } from "react-router";
 
-type CourseList = {
-    course: string;
-    conductor: string;
-    year: string;
-    students?: string;
-}
+import { CourseType } from "types/CourseType";
 
-export const Course = ({course, conductor, year, students}: CourseList) => {
+export const Course = ({course, conductor, year}: CourseType) => {
     return(
         <div className="flex justify-end items-center relative w-full hover:scale-95 transition-all duration-150 ease-in-out">
             <Link to='/profile' className="shadow-md inset-shadow-sm border border-gray-200 rounded-md flex items-center gap-2 p-2 w-full">
@@ -21,7 +16,6 @@ export const Course = ({course, conductor, year, students}: CourseList) => {
                 <div>
                     <h2 className="text-lg font-bold">{conductor}</h2> 
                     <p className="text-sm">Ano: {year}</p>
-                    <p className="text-sm">Alunos: {students ? students : 0}</p>
                 </div>
             </Link>
 

@@ -1,11 +1,47 @@
-import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { useCookies } from "react-cookie";
+import { toast, ToastContainer } from "react-toastify";
 
 import { Icon } from "@components/Icon";
 import { AddCourse } from "./components/AddCourse";
 import { Course } from "./components/Course";
 
+import { CourseType } from "types/CourseType";
+
+import { validation } from "@api/auth/validation";
+import { getCourses } from "@api/courses/getCourses";
 
 export const CoursesPage = () => {
+    const [cookies] = useCookies(['token']);
+    const navegate = useNavigate();
+    const [courses, setCourses] = useState<CourseType[]>();
+
+    useEffect(() => {
+        (async () => {
+            const auth = await validation(cookies?.token as string);
+            if(!auth) navegate("/");
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const courses = await getCourses();
+            const { status, data } = courses;
+
+            if(status !== 200) {
+                toast.error('Failed to Get Courses...', {
+                    position: "bottom-right",
+                    pauseOnHover: false,
+                    draggable: 'touch'
+                });
+                return;
+            }
+
+            setCourses(data);
+        })();
+    }, []);
+
     return (
         <>
             <div className="bg-(--primary) flex items-center pl-5 w-full h-25">
@@ -38,13 +74,14 @@ export const CoursesPage = () => {
                     </div>
 
                     <div className="flex flex-col gap-2 pr-0.5 overflow-auto max-[832px]:max-h-55">
-                        <Course course="TPSI" conductor="Joaquim Antunes" year="2" />
-                        <Course course="DPM" conductor="Joaquim Antunes" year="2" />
-                        <Course course="TPSIE" conductor="Joaquim Antunes" year="2" />
-                        <Course course="TPSIEI" conductor="Joaquim Antunes" year="2" />
+                        {courses?.map(({course, conductor, year}, index) => (
+                            <Course key={index} course={course} conductor={conductor} year={year} />    
+                        ))}
                     </div>
                 </div>
             </div>
+
+            <ToastContainer />
         </>
     );
 }

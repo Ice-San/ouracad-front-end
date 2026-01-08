@@ -14,6 +14,7 @@ import { usersBackendType } from "types/usersBackendType";
 import { formatDate } from "@utils/formatDate";
 
 import { getUsers } from "@api/users/getUser";
+import { validation } from "@api/auth/validation";
 
 export const UsersPage = () => {
     const [users, setUsers] = useState<UsersList[]>([]);
@@ -22,11 +23,10 @@ export const UsersPage = () => {
     const [cookies] = useCookies(['token']);
 
     useEffect(() => {
-        const token = cookies?.token;
-
-        if(!token) {
-            navegate('/');
-        }
+        (async () => {
+            const auth = await validation(cookies?.token as string);
+            if(!auth) navegate("/");
+        })();
     }, []);
 
     useEffect(() => {
