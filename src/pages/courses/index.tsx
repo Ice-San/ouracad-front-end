@@ -15,7 +15,7 @@ import { getCourses } from "@api/courses/getCourses";
 export const CoursesPage = () => {
     const [cookies] = useCookies(['token']);
     const navegate = useNavigate();
-    const [courses, setCourses] = useState<CourseType[]>();
+    const [courses, setCourses] = useState<CourseType[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -75,7 +75,7 @@ export const CoursesPage = () => {
 
                     <div className="flex flex-col gap-2 pr-0.5 overflow-auto max-[832px]:max-h-55">
                         {courses?.map(({course, conductor, year}, index) => (
-                            <Course key={index} course={course} conductor={conductor} year={year} />    
+                            <Course key={index} course={course} conductor={conductor} year={year} setCourses={setCourses} />    
                         ))}
                     </div>
                 </div>
